@@ -64,3 +64,5 @@ details ul{padding-left:20px}
 .note{border-left:4px solid var(--gold);background:var(--card);padding:12px 14px;border-radius:0 12px 12px 0;color:var(--muted)}
 footer{border-top:1px solid var(--line);margin-top:40px;padding:22px 0 40px;font-size:13px;color:var(--soft)}
 footer a{color:var(--muted);margin-right:14px}
+
+.apkinfo{margin:10px 0 0;font-size:13px;opacity:.75}

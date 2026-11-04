@@ -27,7 +27,7 @@
   });
 })();
 
-// Numero WhatsApp : lu dans les reglages de l'appli (admin), sinon on garde celui ecrit dans la page
+// Numero WhatsApp et lien de l'appli : lus dans les reglages de l'appli (admin), sinon on garde ceux ecrits dans la page
 (function () {
   var URL = "https://ypryzrxfhsmkwduxqdih.supabase.co";
   function apply(raw) {
@@ -42,6 +42,16 @@
     if (!window.KRESU_ANON || !window.fetch) return;
     fetch(URL + "/rest/v1/rpc/public_contact", {
       method: "POST", headers: { apikey: window.KRESU_ANON, "Content-Type": "application/json" }, body: "{}"
-    }).then(function (r) { return r.ok ? r.json() : null; }).then(function (j) { if (j) apply(j.whatsapp); }).catch(function () {});
+    }).then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
+      if (!j) return;
+      apply(j.whatsapp);
+      // Lien de telechargement : le dernier APK publie par l'appli (mis a jour a chaque nouvelle version)
+      if (j.apk && /^https:\/\//.test(j.apk)) {
+        document.querySelectorAll("[data-apk]").forEach(function (a) { a.href = j.apk; a.setAttribute("download", ""); });
+        document.querySelectorAll("[data-apk-info]").forEach(function (e) {
+          e.textContent = "Appli Android" + (j.version ? " · version " + j.version : "") + " · gratuite à installer";
+        });
+      }
+    }).catch(function () {});
   });
 })();
